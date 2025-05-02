@@ -118,9 +118,9 @@ body{
 
     
     display: flex;
-    gap: 3px;
+    gap: 1px;
 
-    background-color: grey;
+    background-color: rgb(214, 214, 214);
 }
 
 .inner-shadow{
@@ -145,7 +145,7 @@ body{
 
     flex: 1;
     display: flex;
-    gap: 3px;
+    gap: 1px;
     flex-direction: column;
 }
 
@@ -160,6 +160,11 @@ body{
     flex: 1;
 }
 
+
+.cell.selected{
+    
+    background-color: rgb(145, 143, 143);
+}
 
 
 /*
@@ -189,6 +194,8 @@ body{
     background-color: white;
     border: black;
 
+    transition: background-color .5s;
+
     box-shadow: rgba(0, 0, 0, 0.5) 0px 3px 2px;
 }
 
@@ -205,15 +212,41 @@ body{
 
 }
 
-.wheel:hover .wheel-content{
+.wheel:hover{
 
-    transition: background-color 1s;
-
-    background-color: aqua;
+    background-color: rgb(189, 188, 188);
+    transition: .5s;
 }
 
-.wheel-content .selected{
+.wheel.selected{
 
-    background-color: grey;
+    background-color: rgb(138, 138, 138);
 }
 
+
+
+
+/*Shake animation to clear*/
+
+.shake-container.shake{
+
+    animation: shake 0.5s;
+
+    /* When the animation is finished, start again */
+    animation-iteration-count: 1;
+}
+
+
+@keyframes shake {
+    0% { transform: translate(1px, 1px) rotate(0deg); }
+    10% { transform: translate(-1px, -2px) rotate(-1deg); }
+    20% { transform: translate(-3px, 0px) rotate(1deg); }
+    30% { transform: translate(3px, 2px) rotate(0deg); }
+    40% { transform: translate(1px, -1px) rotate(1deg); }
+    50% { transform: translate(-1px, 2px) rotate(-1deg); }
+    60% { transform: translate(-3px, 1px) rotate(0deg); }
+    70% { transform: translate(3px, 1px) rotate(-1deg); }
+    80% { transform: translate(-1px, -1px) rotate(1deg); }
+    90% { transform: translate(1px, 2px) rotate(0deg); }
+    100% { transform: translate(1px, -2px) rotate(-1deg); }
+  }
