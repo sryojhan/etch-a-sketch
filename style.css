@@ -60,6 +60,8 @@ body{
     position: relative;
 
     height: 100%;
+
+    display: flex;
 }
 
 .info{
@@ -82,7 +84,7 @@ body{
     /*Size*/
     aspect-ratio: 1.25;
 
-    width: auto;
+    width: 100%;
     height: auto;
 
     max-width: 100%;
