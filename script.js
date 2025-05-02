@@ -13,6 +13,13 @@ class Manager{
         this.columns = 100;
         this.rows = 80;
 
+
+        this.currentX = Math.floor(this.columns * 0.5);
+        this.currentY = Math.floor(this.rows * 0.5);
+
+        this.keyboardSpeed = 4;
+
+
         this.initialiseEvents();
         this.populateScreen();
     }
@@ -39,8 +46,63 @@ class Manager{
             }
 
         });
+
+
+        addEventListener('keydown', (data) =>{
+
+
+
+            this.manageKeyPress(data, 'ArrowLeft', this.left, -1);
+            this.manageKeyPress(data, 'ArrowRight', this.left, 1);
+            this.manageKeyPress(data, 'ArrowUp', this.right, 1);
+            this.manageKeyPress(data, 'ArrowDown', this.right, -1);
+
+        });
+
+        addEventListener('keyup', (data) =>{
+
+
+            this.keyReleased(data, 'ArrowLeft');
+            this.keyReleased(data, 'ArrowRight');
+            this.keyReleased(data, 'ArrowUp');
+            this.keyReleased(data, 'ArrowDown');
+
+        });
+
+    }
+    
+    manageKeyPress(data, key, wheel, value){
+
+        if(data.key === key && (!this[key] || this[key] === false)){
+
+
+            this[key] = true;
+            
+            this.keyPressLoop(key, wheel, value);
+        }
     }
 
+
+    keyPressLoop(key, wheel, value){
+
+        if(this[key] === false) return;
+
+        wheel.onDrag(value * this.keyboardSpeed);
+
+        setTimeout(
+            ()=>{
+                this.keyPressLoop(key, wheel, value);
+            }
+            , 10);
+    }
+
+    keyReleased(data, key){
+
+        if(data.key === key)
+        {
+            this[key] = false;
+        }
+    }
 
     selectWheel(wheel){
 
@@ -91,29 +153,53 @@ class Manager{
 
 
 
-        this.currentX = Math.floor(this.columns * 0.5);
-        this.currentY = Math.floor(this.rows * 0.5);
-
-
-        this.updateSelected(0, 0);
+        this.paintNode();
     }
 
-    paintNode(x, y){
+    paintNode(){
 
-        this.sketch.children[x].children[y].classList.add('selected');
-
+        this.sketch.children[this.currentX].children[this.currentY].classList.add('selected');
     }
 
-    paintCurrentSelectedNode(){
+    hoverNode(){
 
+        this.sketch.children[this.currentX].children[this.currentY].classList.add('hovered');
+    }
+
+    unhoverNode(){
+
+        this.sketch.children[this.currentX].children[this.currentY].classList.remove('hovered');
+    }
+
+    isPainted(){
+
+        return this.sketch.children[this.currentX].children[this.currentY].classList.contains('selected');
     }
 
     updateSelected(diffX, diffY){
 
+        if(diffX === 0 && diffY === 0) return;
+
+        let newX = this.currentX + diffX;
+        let newY = this.currentY + diffY;
+
+        if(newX < 0 || newY < 0 || newX >= this.columns || newY >= this.rows)
+            return false;
+
+
+        this.unhoverNode();
+        
         this.currentX += diffX;
         this.currentY += diffY;
+        
+        if(this.isPainted()){
+            
+            this.hoverNode();
+        }
+        else{
 
-        this.paintNode(this.currentX, this.currentY);
+            this.paintNode();
+        }
     }
 }
 
@@ -150,10 +236,8 @@ class Wheel{
     onDrag(movementX){
 
         this.changeValue +=movementX;
-        this.currentRotation += movementX;
 
-        this.updateVisuals();
-
+        
 
         const changeSelectedResistance = 10;
         
@@ -168,17 +252,25 @@ class Wheel{
             change = 1;
         }
 
-        else{
-            return;
+
+
+        if(change !== 0){
+
+            this.changeValue = 0;
+            
+            if(this.isHorizontal)
+                manager.updateSelected(change, 0);
+            else 
+            manager.updateSelected(0, -change);
         }
 
 
-        this.changeValue = 0;
+        this.currentRotation += movementX;
+        this.updateVisuals();
 
-        if(this.isHorizontal)
-            manager.updateSelected(change, 0);
-        else 
-            manager.updateSelected(0, -change);
+        //Knob animation
+
+
 
     }
 }
@@ -206,8 +298,19 @@ thicknessSlider.addEventListener('input', (event)=>{
 });
 
 
+let kbSpeedSlider = 
+
+document.querySelector('#keyboard-speed').addEventListener('input', (event) =>{
+
+    manager.keyboardSpeed = event.target.value;
+}
+
+);
+
+
+
 let shake = document.querySelector('.shake-container');
-document.querySelector('#clear').addEventListener('click', (event) => {
+document.querySelector('#clearBtn').addEventListener('click', (event) => {
 
 
     shake.classList.add('shake');    

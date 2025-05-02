@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,8 +9,9 @@
 
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-    
+
 
 
     <div class="page">
@@ -19,10 +21,10 @@
             <div class="shake-container">
 
                 <div class="outer-shell">
-                
+
 
                     <div class="screen">
-                        
+
                         <div class="container" id="sketch">
 
                         </div>
@@ -31,21 +33,24 @@
 
 
                         </div>
-                        
+
                     </div>
-                    
+
+
+                    <div class="wheel-container">
+
+                        <div class="wheel" id="left-wheel">
+                            <div class="wheel-content"></div>
+                        </div>
+
+                        <div class="wheel" id="right-wheel">
+                            <div class="wheel-content"></div>
+                        </div>
+                    </div>
+
                 </div>
 
-                <div class="wheel-container">
 
-                    <div class="wheel" id="left-wheel">
-                        <div class="wheel-content"></div>
-                    </div>
-
-                    <div class="wheel" id="right-wheel">
-                        <div class="wheel-content"></div>
-                    </div>
-                </div>
             </div>
 
 
@@ -53,20 +58,26 @@
 
         <div class="info">
 
-            <h1>Etch-a-sketch</h1>
+            <h1>Etch-a-sketch: made by Yojhan</h1>
 
-            <p>Yojhan</p>
 
             <h3>
                 Pad thickness: <input type="range" min="100" max="400" value="50" class="slider" id="thickness">
             </h3>
 
-            <button id="clear"> Clear pad</button>
+
+            <h3>
+                Keyboard speed: <input type="range" min="1" max="10" value="4" class="slider" id="keyboard-speed">
+            </h3>
+
+
+            <button id="clearBtn"> Clear pad</button>
         </div>
-        
+
 
 
     </div>
     <script src="script.js"></script>
 </body>
+
 </html>
