@@ -7,8 +7,11 @@ class Manager{
         this.right = new Wheel(document.querySelector('#right-wheel'));
 
         this.selected = null;
+        this.sketch = document.querySelector('#sketch');
+
 
         this.initialiseEvents();
+        this.populateScreen(10, 8);
     }
 
     initialiseEvents(){
@@ -37,6 +40,50 @@ class Manager{
     selectWheel(wheel){
 
         this.selected = wheel;
+    }
+
+
+    clearElements(container){
+
+        container.innerHtml = "";
+    }
+
+    createColumn(){
+
+        let node = document.createElement('div');
+
+        node.classList.add('column');
+
+        this.sketch.append(node);
+
+        return node;
+    }
+
+    createCell(parent){
+
+        let node = document.createElement('div');
+
+        node.classList.add('cell');
+
+        parent.append(node);
+    }
+
+    populateScreen(columns, rows){
+
+
+
+        this.clearElements(sketch);
+
+        for(let i = 0; i < columns; i++){
+
+            let column = this.createColumn();
+
+            for(let c = 0; c < rows; c++){
+
+                this.createCell(column);
+            }
+        }
+
     }
 
 }
