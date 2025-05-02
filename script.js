@@ -79,10 +79,23 @@ class Wheel{
 }
 
 
-
-
-
 addEventListener("DOMContentLoaded", (event) => {
 
     manager.init();
+});
+
+
+
+/*
+    modify pad thickness
+*/
+
+let cssVariables = document.querySelector(':root');
+let thicknessSlider = document.querySelector('#thickness');
+
+thicknessSlider.value = getComputedStyle(cssVariables).getPropertyValue('--margin');
+
+thicknessSlider.addEventListener('input', (event)=>{
+
+    cssVariables.style.setProperty('--margin', event.target.value.toString() + "px");
 });
